@@ -1,0 +1,256 @@
+@spacing: 30px;
+@mobile-spacing: 20px;
+@red: #ed1715;
+@white: #ffffff;
+@blue: #074fb7;
+@grey: #ddd;
+@bp-minimum: 700px;
+@bp-maximum: 1023px;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: @white;
+}
+
+header {
+  padding-bottom: @spacing / 3;
+  padding-top: @spacing / 3;
+}
+
+#logo {
+  text-align: center;
+  padding: @spacing / 3;
+
+  a {
+    font-family: ABeeZee, sans-serif;
+    font-size: 70px;
+    line-height: 64px;
+    text-decoration: none;
+    color: @red;
+    letter-spacing: -4px;
+  }
+
+  #byline {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 16px;
+  }
+}
+
+#menu {
+  &::before {
+    content: '🔴 ⚪️ 🔵';
+    font-size: 7px;
+    padding: 4px;
+    display: flex;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    text-shadow: black 0 0 2px;
+  }
+
+  transition: all 300ms;
+
+  &:hover {
+    background-color: @grey;
+  }
+
+  &:active {
+    ul {
+      display: block;
+    }
+  }
+
+  position: absolute;
+  left: @spacing;
+  top: @spacing;
+  font-family: "Noto Sans JP", sans-serif;
+
+  ul {
+    display: none;
+    position: absolute;
+    top: 35px;
+  }
+}
+
+#login {
+  position: absolute;
+  right: @spacing;
+  top: @spacing;
+  display: none;
+}
+
+main {
+  font-family: "Libre Caslon Text", serif;
+  display: flex;
+  font-size: 16px;
+  line-height: 24px;
+  border-top: 1px solid @grey;
+
+  @media screen and (max-width: @bp-minimum) {
+    flex-direction: column;
+  }
+
+  a {
+    font-weight: bold;
+  }
+
+  td {
+    line-height: 24px;
+  }
+}
+
+.column {
+  width: 33.3%;
+  padding: @spacing @spacing 0 @spacing;
+  overflow: hidden;
+
+  @media screen and (max-width: @bp-minimum) {
+    width: 100%;
+    padding: @mobile-spacing @mobile-spacing 0 @mobile-spacing;
+  }
+
+  @media screen and (max-width: @bp-maximum) and (min-width: @bp-minimum) {
+    width: 50%;
+  }
+}
+
+#nyheder {
+  //border-top: 1px solid @red;
+  color: black;
+
+  td, a {
+    color: black;
+  }
+
+  @media screen and (min-width: @bp-maximum) {
+    border-right: 1px solid @red;
+  }
+
+  @media screen and (min-width: @bp-minimum) and (max-width: @bp-maximum) {
+    display: none;
+  }
+}
+
+#bestyrelsen {
+  background: @white;
+  color: black;
+//  border-top: 1px solid @grey;
+
+  td, a {
+    color: black;
+  }
+}
+
+#misc {
+  //border-top: 1px solid @blue;
+  color: black;
+
+  td, a {
+    color: black;
+  }
+
+  @media screen and (min-width: @bp-minimum) {
+    border-left: 1px solid @blue;
+  }
+}
+
+footer {
+  font-family: "Noto Sans JP", sans-serif;
+  padding: 0 @spacing @spacing @spacing;
+  width: 100%;
+  border-top: 1px solid @grey;
+
+  @media screen and (max-width: @bp-minimum) {
+    padding: 0 @mobile-spacing @mobile-spacing @mobile-spacing;
+  }
+}
+
+#sponsorer {
+  padding: 0px;
+  display: none;
+}
+
+table {
+  //margin-top: @spacing / 3;
+}
+
+a > br {
+  display: block;
+  margin-top: @spacing / 3;
+}
+
+.nyhed {
+  border-bottom: 1px solid @grey;
+  padding-bottom: @spacing;
+}
+
+.head1w {
+  font-family: "Noto Sans JP", sans-serif;
+  //font-family: ABeeZee, sans-serif;
+  font-size: 24px;
+  line-height: 30px;
+  padding-bottom: @spacing;
+
+  #nyheder & {
+    text-decoration: underline;
+    text-decoration-color: @red;
+  }
+
+  #bestyrelsen & {
+    text-decoration: underline;
+    text-decoration-color: @grey;
+  }
+
+  #misc & {
+    text-decoration: underline;
+    text-decoration-color: @blue;
+  }
+}
+
+h1 {
+  display: none;
+}
+
+.text0 {
+  display: block;
+  margin-bottom: @spacing / 3;
+  margin-top: @spacing / 3;
+  font-size: 12px;
+}
+
+img {
+  max-width: 100%;
+  margin-bottom: @spacing / 2;
+}
+
+#program {
+  border-top: 1px solid @grey;
+  padding: @spacing / 4 @spacing @spacing / 4 + 2px @spacing;
+  font-family: "Noto Sans JP", sans-serif;
+  color: #666;
+
+  &:after {
+    content: '▼';
+    margin-left: 4px;
+  }
+
+  ul {
+    display: none;
+
+    li {
+      display: inline-block;
+
+      a {
+        display: inline-block;
+        padding: 0 @spacing / 2;
+        color: black;
+      }
+    }
+  }
+}
