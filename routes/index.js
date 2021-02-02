@@ -30,7 +30,7 @@ router.get('/template.html', (req, res, next) => {
     res.sendFile(path.resolve('template.html'));
 })
 
-router.get(['/less/*', '/android-chrome-*.png', '/favicon.*', 'apple-touch-icon.png', 'browserconfig.xml', 'mstile-*.png', 'safari-pinned-tab.svg', 'site.webmanifest'], (req, res, next) => {
+router.get(['/less/*', '/android-chrome-*.png', '/favicon*', 'apple-touch-icon.png', 'browserconfig.xml', 'mstile-*.png', 'safari-pinned-tab.svg', 'site.webmanifest'], (req, res, next) => {
     const url = req.originalUrl.toLowerCase().substr(1);
     res.sendFile(path.resolve(`${url}`));
 })
