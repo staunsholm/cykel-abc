@@ -4,7 +4,7 @@
 @white: #ffffff;
 @blue: #074fb7;
 @grey: #ddd;
-@bp-minimum: 700px;
+@bp-minimum: 760px;
 @bp-maximum: 1023px;
 @burger-line-height: 2px;
 @burger-width: 30px;
@@ -97,8 +97,6 @@ header {
 
   ul {
     display: none;
-    position: absolute;
-
   }
 }
 
@@ -209,7 +207,8 @@ a > br {
   font-family: "Noto Sans JP", sans-serif;
   font-size: 24px;
   line-height: 30px;
-  padding-bottom: @spacing;
+  margin-bottom: @spacing / 3;
+  display: block;
 
   #nyheder & {
     text-decoration: underline;
@@ -234,7 +233,6 @@ h1 {
 .text0 {
   display: block;
   margin-bottom: @spacing / 3;
-  margin-top: @spacing / 3;
   font-size: 12px;
 }
 
@@ -298,5 +296,13 @@ img {
         color: black;
       }
     }
+  }
+}
+
+tr > td {
+  padding-left: @spacing / 2;
+
+  &:first-child {
+    padding-left: 0;
   }
 }
