@@ -15,6 +15,7 @@ app.use(cookieParser());
 const apiProxy = proxy.createProxyMiddleware({ target: 'http://www.cykel-abc.dk', changeOrigin: true });
 app.use('/images', apiProxy);
 app.use('/grafik', apiProxy);
+app.use('/usergallery', apiProxy);
 
 app.use(indexRouter);
 

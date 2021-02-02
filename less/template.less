@@ -6,6 +6,9 @@
 @grey: #ddd;
 @bp-minimum: 700px;
 @bp-maximum: 1023px;
+@burger-line-height: 2px;
+@burger-width: 30px;
+@burger-spacing: 6px;
 
 * {
   box-sizing: border-box;
@@ -17,8 +20,17 @@ body {
 }
 
 header {
-  padding-bottom: @spacing / 3;
-  padding-top: @spacing / 3;
+  position: relative;
+  margin: @spacing / 3 0;
+
+  background-image: url('https://psn.dk/wp-content/themes/yootheme/cache/ABC-cykling-1a673964.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: calc(100% - @spacing);
+
+  @media screen and (max-width: @bp-minimum) {
+    background-image: none;
+  }
 }
 
 #logo {
@@ -40,41 +52,53 @@ header {
   }
 }
 
-#menu {
+.burger {
+  display: block;
+  border-top: @burger-line-height solid @red;
+  margin-top: @burger-line-height + @burger-spacing;
+  width: 100%;
+
   &::before {
-    content: '🔴 ⚪️ 🔵';
-    font-size: 7px;
-    padding: 4px;
-    display: flex;
-    width: 40px;
-    height: 40px;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-    text-shadow: black 0 0 2px;
+    content: ' ';
+    display: block;
+    width: 100%;
+    height: @burger-line-height;
+    background-color: @grey;
+    margin-top: @burger-spacing;
+  }
+
+  &::after {
+    content: ' ';
+    display: block;
+    width: 100%;
+    height: @burger-line-height;
+    background-color: @blue;
+    margin-top: @burger-spacing;
   }
 
   transition: all 300ms;
-
   &:hover {
-    background-color: @grey;
+    transform: rotate(180deg);
   }
+}
 
-  &:active {
-    ul {
-      display: block;
-    }
-  }
-
+#menu {
+  display: block;
+  cursor: pointer;
+  width: @burger-width;
   position: absolute;
   left: @spacing;
-  top: @spacing;
+  top: calc(50% - @burger-spacing * 2 - @burger-line-height * 3);
   font-family: "Noto Sans JP", sans-serif;
+
+  @media screen and (max-width: @bp-minimum) {
+    left: @mobile-spacing;
+  }
 
   ul {
     display: none;
     position: absolute;
-    top: 35px;
+
   }
 }
 
@@ -140,7 +164,7 @@ main {
 #bestyrelsen {
   background: @white;
   color: black;
-//  border-top: 1px solid @grey;
+  //  border-top: 1px solid @grey;
 
   td, a {
     color: black;
@@ -171,15 +195,6 @@ footer {
   }
 }
 
-#sponsorer {
-  padding: 0px;
-  display: none;
-}
-
-table {
-  //margin-top: @spacing / 3;
-}
-
 a > br {
   display: block;
   margin-top: @spacing / 3;
@@ -192,7 +207,6 @@ a > br {
 
 .head1w {
   font-family: "Noto Sans JP", sans-serif;
-  //font-family: ABeeZee, sans-serif;
   font-size: 24px;
   line-height: 30px;
   padding-bottom: @spacing;
@@ -229,7 +243,34 @@ img {
   margin-bottom: @spacing / 2;
 }
 
+#sponsorer {
+  border-top: 1px solid @grey;
+
+  table {
+    margin: 0 auto;
+
+    td {
+      padding: @spacing / 3 @spacing;
+    }
+  }
+
+  img {
+    margin: 0;
+  }
+
+  @media screen and (max-width: @bp-minimum) {
+    table td {
+      display: none;
+    }
+
+    table td:nth-child(1) {
+      display: block;
+    }
+  }
+}
+
 #program {
+  display: none;
   border-top: 1px solid @grey;
   padding: @spacing / 4 @spacing @spacing / 4 + 2px @spacing;
   font-family: "Noto Sans JP", sans-serif;
@@ -238,6 +279,11 @@ img {
   &:after {
     content: '▼';
     margin-left: 4px;
+  }
+
+  @media screen and (max-width: @bp-minimum) {
+    padding-left: @mobile-spacing;
+    padding-right: @mobile-spacing;
   }
 
   ul {
