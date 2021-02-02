@@ -31,12 +31,11 @@
     </section>
     <nav id="menu">
         <i class="burger"></i>
-        <ul>
-            [links]
-        </ul>
     </nav>
     <section id="login">[login]</section>
 </header>
+
+<section id="links">[links]</section>
 
 <section id="program">
     Kommende træninger
@@ -50,13 +49,17 @@
 
 <section id="sponsorer">[sponsorer]</section>
 
-<main>
-    <section id="nyheder" class="column">[nyheder]</section>
-    <section id="bestyrelsen" class="column">[bestyrelsen]</section>
-    <section id="misc" class="column">[misc]</section>
-</main>
+<main>[main]</main>
 
 <footer>[footer]</footer>
+
+<script>
+    const links = document.getElementById('links');
+    document.getElementById('menu').addEventListener('click', () => {
+        const isShowing = links.style.display === 'block';
+        links.style.display = isShowing ? 'none' : 'block';
+    })
+</script>
 
 </body>
 </html>

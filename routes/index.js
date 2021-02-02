@@ -5,7 +5,7 @@ const router = express.Router();
 const parse5 = require("parse5");
 const parse5utils = require('parse5-utils');
 const fs = require('fs');
-const { queryOne } = require("parse5-query-domtree");
+const { queryOne, queryAll } = require("parse5-query-domtree");
 
 require.extensions['.html'] = function (module, filename) {
     module.exports = fs.readFileSync(filename, 'utf8');
@@ -21,8 +21,12 @@ function serialize(node) {
     return node ? parse5utils.serialize(node)
             .replace(/<meta.*?>/gi, '')
             .replace(/<style[\s\S]+?<\/style>/gmi, '')
-            .replace(/<title[\s\S]+?<\/title>/gmi, '')
+            .replace(/<title.*?<\/title>/gi, '')
             .replace(/<link.*?>/gi, '')
+            .replace(/<font.*?>/g, '')
+            .replace(/<\/font>/g, '')
+            .replace(/<li><\/li>/g, '')
+            .replace(/<ul><\/ul>/g, '')
         : '';
 }
 
@@ -47,8 +51,11 @@ router.get(/(.*\.(html|php)|\/)/, async (req, res, next) => {
     // insert viewport meta tag and link to css
     if (req.headers.accept.includes('text/html')) {
         const htmlTree = parse5.parse(html);
+
         const title = textOf(queryOne(htmlTree).getElementsByTagName('title'));
-        const links = '';
+        const links = serialize(queryOne(htmlTree).getElementsById('links'))
+            .replace(/<form[\s\S]*?<\/form>/m, '');
+        const menu = queryAll(htmlTree).getElementsById('menu').map(serialize).join('');
         const login = serialize(queryOne(htmlTree).getElementsById('login_menu'));
         const program = '';
         const sponsorer = serialize(queryOne(htmlTree).getElementsById('sponsorbanner'));
@@ -57,9 +64,21 @@ router.get(/(.*\.(html|php)|\/)/, async (req, res, next) => {
         const misc = serialize(queryOne(htmlTree).getElementsById('kolonne_2'));
         const footer = serialize(queryOne(htmlTree).getElementsByClassName('footer-text'));
 
+        const article = serialize(queryOne(htmlTree).getElementsByTagName('body'));
+
+        const main = url === '/' ? `    
+            <section id="nyheder" class="column">[nyheder]</section>
+            <section id="bestyrelsen" class="column">[bestyrelsen]</section>
+            <section id="misc" class="column">[misc]</section>
+        ` : `
+            <article>
+                [article]
+            </article>`;
+
         res.send(template
+            .replace(/\[main]/g, main)
             .replace(/\[title]/g, title)
-            .replace(/\[links]/g, links)
+            .replace(/\[links]/g, menu + links)
             .replace(/\[login]/g, login)
             .replace(/\[program]/g, program)
             .replace(/\[sponsorer]/g, sponsorer)
@@ -67,8 +86,9 @@ router.get(/(.*\.(html|php)|\/)/, async (req, res, next) => {
             .replace(/\[bestyrelsen]/g, bestyrelsen)
             .replace(/\[misc]/g, misc)
             .replace(/\[footer]/g, footer)
-            .replace(/width="[0-9%]*"/g, '')
-            .replace(/height="[0-9%]*"/g, '')
+            .replace(/\[article]/g, article)
+            .replace(/width="[0-9%]*?"/g, '')
+            .replace(/height="[0-9%]*?"/g, '')
             .replace(/<marquee.*?>/g, '')
             .replace(/<\/marquee>/g, '')
         );
