@@ -19,20 +19,20 @@ function textOf(node) {
 
 function serialize(node) {
     return node ? parse5utils.serialize(node)
-        .replace(/<meta.*?>/gi, '')
-        .replace(/<style[\s\S]+?<\/style>/gmi, '')
-        .replace(/<title[\s\S]+?<\/title>/gmi, '')
-        .replace(/<link.*?>/gi, '')
-    : '';
+            .replace(/<meta.*?>/gi, '')
+            .replace(/<style[\s\S]+?<\/style>/gmi, '')
+            .replace(/<title[\s\S]+?<\/title>/gmi, '')
+            .replace(/<link.*?>/gi, '')
+        : '';
 }
-
-router.get('/less/*', (req, res, next) => {
-    const url = req.originalUrl.toLowerCase().substr(1);
-    res.sendFile(path.resolve(`${url}`));
-});
 
 router.get('/template.html', (req, res, next) => {
     res.sendFile(path.resolve('template.html'));
+})
+
+router.get(['/less/*', '/android-chrome-*.png', '/favicon.*', 'apple-touch-icon.png', 'browserconfig.xml', 'mstile-*.png', 'safari-pinned-tab.svg', 'site.webmanifest'], (req, res, next) => {
+    const url = req.originalUrl.toLowerCase().substr(1);
+    res.sendFile(path.resolve(`${url}`));
 })
 
 router.get(/(.*\.(html|php)|\/)/, async (req, res, next) => {
