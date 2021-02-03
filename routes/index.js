@@ -55,7 +55,7 @@ router.get(/(.*\.(html|php)|\/)/, async (req, res, next) => {
         const title = textOf(queryOne(htmlTree).getElementsByTagName('title'));
         const links = serialize(queryOne(htmlTree).getElementsById('links'))
             .replace(/<form[\s\S]*?<\/form>/m, '');
-        const menu = queryAll(htmlTree).getElementsById('menu').map(serialize).join('');
+        const menu = serialize(queryOne(htmlTree).getElementsById('menu'));
         const login = serialize(queryOne(htmlTree).getElementsById('login_menu'));
         const program = '';
         const sponsorer = serialize(queryOne(htmlTree).getElementsById('sponsorbanner'));
@@ -64,7 +64,8 @@ router.get(/(.*\.(html|php)|\/)/, async (req, res, next) => {
         const misc = serialize(queryOne(htmlTree).getElementsById('kolonne_2'));
         const footer = serialize(queryOne(htmlTree).getElementsByClassName('footer-text'));
 
-        const article = serialize(queryOne(htmlTree).getElementsByTagName('body'));
+        const article = serialize(queryOne(htmlTree).getElementsByTagName('body'))
+        const cleanArticle = article.substr(article.indexOf('<div'), article.lastIndexOf('</div>'));
 
         const main = url === '/' ? `    
             <section id="nyheder" class="column">[nyheder]</section>
@@ -86,7 +87,7 @@ router.get(/(.*\.(html|php)|\/)/, async (req, res, next) => {
             .replace(/\[bestyrelsen]/g, bestyrelsen)
             .replace(/\[misc]/g, misc)
             .replace(/\[footer]/g, footer)
-            .replace(/\[article]/g, article)
+            .replace(/\[article]/g, cleanArticle)
             .replace(/width="[0-9%]*?"/g, '')
             .replace(/height="[0-9%]*?"/g, '')
             .replace(/<marquee.*?>/g, '')
