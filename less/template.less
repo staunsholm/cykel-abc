@@ -110,10 +110,17 @@ header {
   background-color: white;
   width: 100%;
   display: none;
+  flex-direction: row;
 
   padding: 0 @spacing;
   @media screen and (max-width: @bp-minimum) {
     padding: 0 @mobile-spacing;
+    flex-direction: column;
+  }
+
+  >div {
+    width: 50%;
+    padding: @spacing @spacing @spacing 0;
   }
 
   a {
@@ -137,10 +144,6 @@ header {
       content: '- ';
       color: black;
     }
-
-    @media screen and (max-width: @bp-maximum) {
-      display: none;
-    }
   }
 
   li:empty {
@@ -148,7 +151,7 @@ header {
   }
 
   fieldset {
-    display: none;
+    //display: none;
   }
 }
 
@@ -405,7 +408,14 @@ article {
   }
 }
 
-input[type=button] {
+input[type=button], input[type=submit] {
+  border: 1px solid @blue;
+  padding: @spacing / 4 @spacing / 2;
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 16px;
+}
+
+select {
   border: 1px solid @blue;
   padding: @spacing / 4 @spacing / 2;
   font-family: "Noto Sans JP", sans-serif;

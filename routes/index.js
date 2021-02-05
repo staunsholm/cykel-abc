@@ -47,15 +47,26 @@ router.get(/(.*\.(html|php)|\/)/, async (req, res, next) => {
 
     // text
     const html = await response.text();
+    const cleanerHtml = '<html>' + html
+        .replace(/<head>[\s\S]*?<\/head>/gmi, '')
+        .replace(/<body/gi, '<div')
+        .replace(/<\/body>/gi, '</div>')
+        .replace(/<[f|k]ont.*?>/gi, '')
+        .replace(/<\/font>/gi, '')
+        .replace(/<div id='menu'>/gi, '<div id="menu"><div>')
+        .replace(/<=""/g, '')
+        .replace(/border=1 </g, '><')
+        .replace(/<\/fieldset>/g, '</fieldset></form>')
+        .replace(/<html>/gi, '')
+        .replace(/<\/html>/gi, '') + '</html>';
 
-    // insert viewport meta tag and link to css
     if (req.headers.accept.includes('text/html')) {
-        const htmlTree = parse5.parse(html);
+        const htmlTree = parse5.parse(cleanerHtml);
 
         const title = textOf(queryOne(htmlTree).getElementsByTagName('title'));
         const links = serialize(queryOne(htmlTree).getElementsById('links'))
             .replace(/<form[\s\S]*?<\/form>/m, '');
-        const menu = serialize(queryOne(htmlTree).getElementsById('menu'));
+        const menu = serialize(queryAll(htmlTree).getElementsById('menu')[1]);
         const login = serialize(queryOne(htmlTree).getElementsById('login_menu'));
         const program = '';
         const sponsorer = serialize(queryOne(htmlTree).getElementsById('sponsorbanner'));
@@ -79,7 +90,8 @@ router.get(/(.*\.(html|php)|\/)/, async (req, res, next) => {
         res.send(template
             .replace(/\[main]/g, main)
             .replace(/\[title]/g, title)
-            .replace(/\[links]/g, menu + links)
+            .replace(/\[links]/g, menu)
+            .replace(/\[links2]/g, links)
             .replace(/\[login]/g, login)
             .replace(/\[program]/g, program)
             .replace(/\[sponsorer]/g, sponsorer)

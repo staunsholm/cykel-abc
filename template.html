@@ -35,7 +35,10 @@
     <section id="login">[login]</section>
 </header>
 
-<section id="links">[links]</section>
+<section id="links">
+    <div>[links]</div>
+    <div>[links2]</div>
+</section>
 
 <section id="program">
     Kommende træninger
@@ -56,8 +59,8 @@
 <script>
     const links = document.getElementById('links');
     document.getElementById('menu').addEventListener('click', () => {
-        const isShowing = links.style.display === 'block';
-        links.style.display = isShowing ? 'none' : 'block';
+        const isShowing = links.style.display === 'flex';
+        links.style.display = isShowing ? 'none' : 'flex';
     })
 </script>
 
