@@ -108,16 +108,20 @@ header {
   overflow: hidden;
   white-space: nowrap;
 
-  transition: width 400ms, opacity 400ms;
+  transition: width 400ms, opacity 300ms;
 
   @media screen and (max-width: @bp-minimum) {
-    padding: 0 @mobile-spacing;
     flex-direction: column;
   }
 
   >div {
     width: 50%;
-    padding: @spacing;
+    padding: 0 @spacing @spacing * 2 @spacing;
+
+    @media screen and (max-width: @bp-minimum) {
+      padding: 0 @mobile-spacing @mobile-spacing * 2 @mobile-spacing;
+      width: 100%;
+    }
   }
 
   a {

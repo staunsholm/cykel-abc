@@ -85,17 +85,22 @@ header {
   flex-direction: row;
   overflow: hidden;
   white-space: nowrap;
-  transition: width 400ms, opacity 400ms;
+  transition: width 400ms, opacity 300ms;
 }
 @media screen and (max-width: 760px) {
   #links {
-    padding: 0 20px;
     flex-direction: column;
   }
 }
 #links > div {
   width: 50%;
-  padding: 30px;
+  padding: 0 30px 60px 30px;
+}
+@media screen and (max-width: 760px) {
+  #links > div {
+    padding: 0 20px 40px 20px;
+    width: 100%;
+  }
 }
 #links a {
   color: black;
