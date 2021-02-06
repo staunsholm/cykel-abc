@@ -37,28 +37,23 @@ header {
 .burger {
   display: block;
   border-top: 2px solid #ed1715;
-  margin-top: 8px;
+  padding-top: 8px;
   width: 100%;
-  transition: all 300ms;
 }
 .burger::before {
   content: ' ';
   display: block;
   width: 100%;
-  height: 2px;
-  background-color: #ddd;
-  margin-top: 6px;
+  border-top: 2px solid #ddd;
+  margin-top: -2px;
 }
 .burger::after {
   content: ' ';
   display: block;
   width: 100%;
-  height: 2px;
-  background-color: #074fb7;
+  border-top: 2px solid #074fb7;
   margin-top: 6px;
-}
-.burger:hover {
-  transform: rotate(180deg);
+  padding-bottom: 6px;
 }
 #menu {
   display: block;

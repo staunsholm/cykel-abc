@@ -55,31 +55,24 @@ header {
 .burger {
   display: block;
   border-top: @burger-line-height solid @red;
-  margin-top: @burger-line-height + @burger-spacing;
+  padding-top: @burger-line-height + @burger-spacing;
   width: 100%;
 
   &::before {
     content: ' ';
     display: block;
     width: 100%;
-    height: @burger-line-height;
-    background-color: @grey;
-    margin-top: @burger-spacing;
+    border-top: @burger-line-height solid @grey;
+    margin-top: -@burger-line-height;
   }
 
   &::after {
     content: ' ';
     display: block;
     width: 100%;
-    height: @burger-line-height;
-    background-color: @blue;
+    border-top: @burger-line-height solid @blue;
     margin-top: @burger-spacing;
-  }
-
-  transition: all 300ms;
-
-  &:hover {
-    transform: rotate(180deg);
+    padding-bottom: @burger-spacing;
   }
 }
 
