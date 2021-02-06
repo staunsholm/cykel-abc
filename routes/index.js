@@ -7,6 +7,13 @@ const parse5utils = require('parse5-utils');
 const fs = require('fs');
 const { queryOne, queryAll } = require("parse5-query-domtree");
 
+// these are "cached" - so that we have them for pages that do not have said content
+let menu = '';
+let links = '';
+let footer = '';
+let title = '';
+let sponsorer = '';
+
 require.extensions['.html'] = function (module, filename) {
     module.exports = fs.readFileSync(filename, 'utf8');
 };
@@ -48,7 +55,7 @@ router.get(/(.*\.(html|php)|\/)/, async (req, res, next) => {
     // text
     const html = await response.text();
     const cleanerHtml = '<html>' + html
-        .replace(/<head>[\s\S]*?<\/head>/gmi, '')
+        //.replace(/<head>[\s\S]*?<\/head>/gmi, '')
         .replace(/<body/gi, '<div')
         .replace(/<\/body>/gi, '</div>')
         .replace(/<[f|k]ont.*?>/gi, '')
@@ -63,17 +70,38 @@ router.get(/(.*\.(html|php)|\/)/, async (req, res, next) => {
     if (req.headers.accept.includes('text/html')) {
         const htmlTree = parse5.parse(cleanerHtml);
 
-        const title = textOf(queryOne(htmlTree).getElementsByTagName('title'));
-        const links = serialize(queryOne(htmlTree).getElementsById('links'))
-            .replace(/<form[\s\S]*?<\/form>/m, '');
-        const menu = serialize(queryAll(htmlTree).getElementsById('menu')[1]);
+        const titleNode = queryOne(htmlTree).getElementsByTagName('title');
+        if (titleNode) {
+            title = textOf(titleNode);
+        }
+
+        const linksNode = queryOne(htmlTree).getElementsById('links');
+        if (linksNode) {
+            links = serialize(linksNode)
+                .replace(/<form[\s\S]*?<\/form>/m, '');
+        }
+
+        const menuNode = queryAll(htmlTree).getElementsById('menu')[1];
+        if (menuNode) {
+            menu = serialize(menuNode);
+        }
+
         const login = serialize(queryOne(htmlTree).getElementsById('login_menu'));
         const program = '';
-        const sponsorer = serialize(queryOne(htmlTree).getElementsById('sponsorbanner'));
+
+        const sponsorerNode = queryOne(htmlTree).getElementsById('sponsorbanner');
+        if (sponsorerNode) {
+            sponsorer = serialize(sponsorerNode);
+        }
+
         const nyheder = serialize(queryOne(htmlTree).getElementsById('nyhedsoversigt'));
         const bestyrelsen = serialize(queryOne(htmlTree).getElementsById('kolonne_4'));
         const misc = serialize(queryOne(htmlTree).getElementsById('kolonne_2'));
-        const footer = serialize(queryOne(htmlTree).getElementsByClassName('footer-text'));
+
+        const footerNode = queryOne(htmlTree).getElementsByClassName('footer-text');
+        if (footerNode) {
+            footer = serialize(footerNode);
+        }
 
         const article = serialize(queryOne(htmlTree).getElementsByTagName('body'))
         const cleanArticle = article.substr(article.indexOf('<div'), article.lastIndexOf('</div>'));

@@ -141,6 +141,7 @@ main a {
 }
 main td {
   line-height: 24px;
+  vertical-align: top;
 }
 .column {
   width: 33.3%;
