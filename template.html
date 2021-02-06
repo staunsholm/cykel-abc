@@ -57,11 +57,28 @@
 <footer>[footer]</footer>
 
 <script>
+    function hasLinksAsParent(node) {
+        while (node) {
+            if (node.id === 'links') {
+                return true;
+            }
+            node = node.parentNode;
+        }
+        return false;
+    }
+
     const links = document.getElementById('links');
     document.getElementById('menu').addEventListener('click', () => {
-        const isShowing = links.style.display === 'flex';
-        links.style.display = isShowing ? 'none' : 'flex';
+        const isShowing = links.style.width === '100%';
+        links.style.width = isShowing ? '0%' : '100%';
+        links.style.opacity = isShowing ? '0' : '1';
     })
+
+    document.addEventListener('click', (e) => {
+        if (e.target.className !== 'burger' && !hasLinksAsParent(e.target)) {
+            links.style.width = '0%';
+        }
+    });
 </script>
 
 </body>
