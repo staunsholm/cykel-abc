@@ -13,7 +13,7 @@
     "http-proxy-middleware": "1.0.6",
     "less-middleware": "3.1.0",
     "morgan": "1.10.0",
-    "node-fetch": "2.6.1",
+    "node-fetch": "3.1.1",
     "parse5": "6.0.1",
     "parse5-query-domtree": "1.0.2",
     "parse5-utils": "2.0.0"
